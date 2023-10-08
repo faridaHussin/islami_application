@@ -27,13 +27,13 @@ class _HadethViewState extends State<HadethView> {
         ),
         Text(
           'الأحاديث',
-          style: theme.textTheme.bodyMedium,
+          style: theme.textTheme.bodyLarge,
         ),
         Divider(
           thickness: 1.5,
           endIndent: 10,
           indent: 10,
-          color: theme.primaryColor,
+          color: theme.colorScheme.onPrimary,
         ),
         Expanded(
           child: ListView.separated(
@@ -46,13 +46,13 @@ class _HadethViewState extends State<HadethView> {
               },
               child: Text(allHadethContect[index].title,
                   textAlign: TextAlign.center,
-                  style: theme.textTheme.bodyMedium),
+                  style: theme.textTheme.bodyLarge),
             ),
             separatorBuilder: (context, index) => Divider(
               thickness: 1.5,
               endIndent: 80,
               indent: 80,
-              color: theme.primaryColor,
+              color: theme.colorScheme.onPrimary,
             ),
             itemCount: allHadethContect.length,
           ),

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:islami1/moduls/quran/quran_view.dart';
+import 'package:provider/provider.dart';
+
+import '../../core/application_theme.dart';
+import '../../core/provider/app_provider.dart';
 
 class QuranDetails extends StatefulWidget {
   static const String routeName = 'quran_details';
@@ -17,6 +21,7 @@ class _QuranDetailsState extends State<QuranDetails> {
 
   @override
   Widget build(BuildContext context) {
+    var appProvider = Provider.of<AppProvider>(context);
     var args = ModalRoute.of(context)?.settings.arguments as SuraDetails;
     if (contect.isEmpty) readFiles(args.suraNumber);
     var mediaQuery = MediaQuery.of(context).size;
@@ -24,7 +29,11 @@ class _QuranDetailsState extends State<QuranDetails> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage("assets/images/background_light.png"),
+            image: AssetImage(
+              appProvider.isDark()
+                  ? 'assets/images/background_dark.png'
+                  : 'assets/images/background_light.png',
+            ),
             fit: BoxFit.fill),
       ),
       child: Scaffold(
@@ -38,7 +47,7 @@ class _QuranDetailsState extends State<QuranDetails> {
           height: mediaQuery.height,
           width: mediaQuery.width,
           decoration: BoxDecoration(
-            color: Color(0xFFF8F8F8),
+            color: theme.colorScheme.onBackground,
             borderRadius: BorderRadius.circular(25),
           ),
           child: Column(
@@ -48,7 +57,9 @@ class _QuranDetailsState extends State<QuranDetails> {
                 children: [
                   Text(
                     "سورة${args.suraName}",
-                    style: theme.textTheme.bodyLarge,
+                    style: theme.textTheme.bodyLarge!.copyWith(
+                      color: theme.colorScheme.onSecondary,
+                    ),
                   ),
                   SizedBox(
                     width: 5,
@@ -56,26 +67,29 @@ class _QuranDetailsState extends State<QuranDetails> {
                   Icon(
                     Icons.play_circle,
                     size: 32,
-                    color: Colors.black,
+                    color: theme.colorScheme.onSecondary,
                   ),
                 ],
               ),
               Divider(
                 endIndent: 30,
                 indent: 30,
-                color: theme.primaryColor,
                 thickness: 1.2,
                 height: 10,
               ),
               Expanded(
                 child: ListView.builder(
                   itemBuilder: (context, index) => Text(
-                    contect,
-                    style: theme.textTheme.bodySmall,
+                    "(${index + 1})${allVerses[index]}",
                     textAlign: TextAlign.center,
+                    style: theme.textTheme.bodySmall!.copyWith(
+                      color: theme.colorScheme.onSecondary,
+                      height: 1.8,
+                    ),
                   ),
+                  itemCount: allVerses.length,
                 ),
-              )
+              ),
             ],
           ),
         ),

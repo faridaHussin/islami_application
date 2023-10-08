@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../core/application_theme.dart';
+import '../core/provider/app_provider.dart';
 import '../moduls/hadeth/hadeth_view.dart';
 import '../moduls/quran/quran_view.dart';
 import '../moduls/radio/radio_view.dart';
 import '../moduls/settings/settings_view.dart';
 import '../moduls/tasbeh/tasbeh_view.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeLayout extends StatefulWidget {
   static const String routeName = 'home_layout';
@@ -27,16 +31,17 @@ class _HomeLayoutState extends State<HomeLayout> {
 
   @override
   Widget build(BuildContext context) {
+    var local = AppLocalizations.of(context)!;
+    var appProvider = Provider.of<AppProvider>(context);
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-            image: AssetImage("assets/images/background_light.png"),
-            fit: BoxFit.fill),
+            image: AssetImage(appProvider.backgroundImage()), fit: BoxFit.fill),
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text("إسلامى"),
+          title: Text(AppLocalizations.of(context)!.islami),
         ),
         body: screes[selectedIndex],
         bottomNavigationBar: BottomNavigationBar(
@@ -49,18 +54,18 @@ class _HomeLayoutState extends State<HomeLayout> {
           items: [
             BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage("assets/images/quran_icon.png")),
-                label: 'Quran'),
+                label: local.quran),
             BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage("assets/images/hadeth_icon.png")),
-                label: 'Hadeth'),
+                label: local.hadeth),
             BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage("assets/images/sebha.png")),
-                label: 'Tasbeh'),
+                label: local.tasbeh),
             BottomNavigationBarItem(
                 icon: ImageIcon(AssetImage("assets/images/radio.png")),
-                label: 'Radio'),
+                label: local.radio),
             BottomNavigationBarItem(
-                icon: Icon(Icons.settings), label: 'Settings')
+                icon: Icon(Icons.settings), label: local.settings)
           ],
         ),
       ),
